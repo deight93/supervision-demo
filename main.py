@@ -94,16 +94,10 @@ class DetectionApp(QMainWindow):
         detections = sv.Detections.from_ultralytics(results)
         detections = detections[detections.class_id == 0]
 
-        labels = [
-            f"#{tracker_id} {results.names[class_id]}"
-            for class_id, tracker_id
-            in zip(detections.class_id, detections.tracker_id)
-        ]
-
         # Annotator를 이용한 시각화
         # box_annotator = sv.BoxAnnotator()  # BoxAnnotator 초기화
         triangle_annotator = sv.TriangleAnnotator()
-        frame = triangle_annotator.annotate(scene=frame.copy(), detections=detections, labels=labels)
+        frame = triangle_annotator.annotate(scene=frame.copy(), detections=detections)
 
         # 화면 업데이트
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
